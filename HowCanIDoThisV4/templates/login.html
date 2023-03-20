@@ -1,0 +1,26 @@
+{{template "header"}}
+
+  <div class="container" style="margin-top: 10%;">
+    <div class="row">
+      <div class="col-lg-4 col-12" style="margin-left: auto; margin-right: auto; border-radius: 10px; background-color: #1B1C2C">
+        <h2 style="color: #fff; text-align: center; margin-top: 20px;">Вход</h2>
+        <form method="post" action="/login">
+          <input type="email" class="inputRegAndLogin" placeholder="Почта" name="email">
+          <input type="password" class="inputRegAndLogin" placeholder="Пароль" name="password">
+          <input type="submit" class="buttonType1">
+        </form>
+        <div class="row">
+          <div class="col-6">
+            <a href="" style="text-align: left;">Забыли пароль?</a>
+          </div>
+          <div class="col-6" style="text-align: right !important; margin-bottom: 10px;">
+            <a href="/registration" >Регистрация</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  {{template "footer"}}

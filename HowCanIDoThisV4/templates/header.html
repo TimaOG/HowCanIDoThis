@@ -1,0 +1,51 @@
+{{define "header"}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>HowCanIDoThis</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> -->
+
+
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/assets/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body id="bodyMain">
+  <header id="header" class="align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <div class="logo">
+        <h1><a href="..">HowCanIDoThis</a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link" href="..">Главная</a></li>
+          <li><a class="nav-link" href="/offers">Готовые предложения</a></li>
+          <li><a class="nav-link" href="/orders">Биржа</a></li>
+          <li><a class="nav-link" href="/chat">Чат</a></li>
+          <li><a class="nav-link" href="/account"><img src="/static/img/Logo.png" id="acount"
+                style="width: 45px; height: 45px; border-radius: 100px"></a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+
+    </div>
+  </header>
+  <div class="classic" id="classicNotify">
+
+  </div>
+  {{end}}

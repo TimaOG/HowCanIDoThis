@@ -1,0 +1,179 @@
+{{template "header"}}
+<div class="container" style="margin-top: 1%">
+  <h1 style="color: var(--fontColor)" id="mainTitle">Готовые предложения</h1>
+</div>
+<div class="container" style="margin-top: 2%;">
+  <div class="row mt-1">
+    <div class="col-lg-3 col-12" style="margin-top: 10px;">
+      <div style="background-color: var(--fourthColor); border-radius: 10px;" class="sortingFields" id="sortingFieldsOffer">
+        <div style="width: 95%; margin-left: auto; margin-right: auto;">
+          <form id="filtersOffersFrom">
+            <input type="hidden" value="1" id="currentPageOffer">
+            <div style="position: relative;">
+              <p style="font-size: 20px; color: var(--fontColor); margin-top:10px; display:inline-block; margin-right: auto;">
+                Категория</p>
+              <p style="font-size: 20px; color: var(--fontColor); margin-top:10px; display:inline-block; position: absolute; right: 0; color: var(--firstColor); visibility: hidden;"
+                id="hiddenFiltresButtonOffer" onclick="closeFiltersOffer()">Скрыть</p>
+            </div>
+            <select name="taskType" id="offerCategoryFirstSelect"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;"
+              required="required">
+              <option value="0">Выберите каттегорию</option>
+              {{range .TypeFirst}}
+              <option value="{{.Id}}" id="typeFirst{{.Id}}">{{.Name}}</option>
+              {{end}}
+            </select>
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px">Подкатегория:</p>
+            <select name="secondType" id="offerCategorySecondSelect"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;"
+              required="required">
+              <option value="0">Выберите подкаттегорию</option>
+            </select>
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px; height: 30px;">Дней на задачу до:</p>
+            <input type="number" name="daysToComplite" value="0"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;">
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px; height: 30px;">Тип задачи:</p>
+            <select name="workType" id="category2"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;"
+              required="required">
+              <option value="0">Не выбрано</option>
+              <option value="1">Обучение</option>
+              <option value="2">Выполнение</option>
+              <option value="3">Временный работник</option>
+            </select>
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px; ">Бюджет:</p>
+            <div class="row">
+              <div class="col-6">
+                <input type="number" name="priceDown" placeholder="От" value="0"
+                  style="border-radius: 5px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;">
+              </div>
+              <div class="col-6">
+                <input type="number" name="priceUp" placeholder="До" value="0"
+                  style="border-radius: 5px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;">
+              </div>
+            </div>
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px">Рейтиг предложения от:</p>
+            <input type="number" name="rating" value="0"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;">
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px">Рейтиг продавца от:</p>
+            <input type="number" name="sellerRating" value="0"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;">
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px">Теги:</p>
+            <input type="text" name="tags" placeholder=""
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor)">
+            <p style="font-size: 20px; color: var(--fontColor); margin-top:20px">Сортировать по:</p>
+            <select name="orderBy"
+              style="border-radius: 10px; background: var(--firstColor); width: 100%; color: var(--fontColor); height: 30px;"
+              required="required">
+              <option value="">Не сортировать</option>
+              <option value="asc">По цене вверх</option>
+              <option value="desc">По цене вниз</option>
+            </select>
+            <button type="button" class="buttonOK" style="margin-top: 20px;" id="showOffersWithFiltres">Найти</button>
+          </form>
+          <br>
+        </div>
+      </div>
+      <h4 style="text-align: right; color: var(--firstColor); margin-right: 10px;" class="sortingFieldsButton"
+        id="sortingFieldsButtonOffer" onclick="openFiltersOffer()">Фильтры</h4>
+    </div>
+    <div class="col-lg-9 col-12" style="margin-left: auto; margin-top: 10px;">
+      <div class="row" id="offerListPage">
+        {{range .Offers}}
+        <div class="col-lg-4 col-12" style="margin-bottom: 20px;">
+          <div
+            style="width: 99%; margin-left: auto;margin-right: auto;border-radius: 10px; border: 1px solid; background-color: var(--fourthColor);">
+            <div style="width: 90%; margin-left: auto;margin-right: auto;">
+              <img src="/static/upload/offerSkin/{{.CoverPath}}" class="taskImg">
+              <h5 style="color: var(--fontColor); margin-top: 10px; height: 50px;" onclick="showCurrentOffer({{.Id}})">{{.Name}}</h5>
+              <h6 style="color: var(--fontColor); margin-top: 10px">Рейтинг - {{.Rating}} ({{.HistoryCount}})</h6>
+              <div class="row">
+                <div class="col-6">
+                  <p style="color: var(--fontColor)"><a href="{{.FkUserOwner}}">{{.UserOwnerName}}</a></p>
+                </div>
+                <div class="col-6">
+                  <p style="color: var(--fontColor); text-align: right;">Цена: {{.Price}}р</p>
+                </div>
+              </div>
+              <p style="color: var(--fontColor)">Срок: {{.DaysToComplite}} дня, {{if eq .WorkType 1}}Обучение{{end}}{{if eq
+                .WorkType
+                2}}Выполнение {{end}}{{if eq .WorkType 3}}Временный работник{{end}}</p>
+              <p style="color: var(--fontColor)">{{.Tags}}</p>
+              <button class="buttonOK" onclick="sendMessageOpen({{.Id}}, {{.FkUserOwner}})">Написать</button>
+            </div>
+          </div>
+        </div>
+        {{end}}
+      </div>
+      <button type="button" class="buttonOK" id="loadMoreOffers">Загрузить еще</button>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="offerClick" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 style="color: var(--fontColor)">Предложение</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container" style="margin-top: 4%;">
+          <h2 style="color: var(--fontColor)" id="offerClickName">Помогу с 1с</h2>
+          <input type="hidden" id="offerClickId">
+          <div class="row">
+            <div class="col-lg-12 col-12" style="border-radius: 10px; background-color: #1B1C2C;">
+              <img src="" id="offerClickImg" class="taskImg">
+            </div>
+            <div class="col-lg-12 col-12"
+              style=" margin-left: auto; border-radius: 10px; background-color: #1B1C2C; margin-top: 20px;">
+              <div class="row">
+                <div class="col-lg-4 col-12">
+                  <h2><a href="" id="offerClickUser"></a></h2>
+                  <p style="color: var(--fontColor)" id="offerClickWorkType"></p>
+                  <p style="color: var(--fontColor)" id="offerClickPrice"></p>
+                  <p style="color: var(--fontColor)" id="offerClickDaysToCompite"></p>
+                  <p style="color: var(--fontColor)" id="offerClickTags"></p>
+                  <button class="buttonOK" onclick="sendMessageOpenFromModal()">Написисать</button>
+                </div>
+                <div class="col-lg-7 col-12" style="margin-left: auto; margin-bottom: 10px">
+                  <h2 style="color: var(--fontColor)">Описание</h2>
+                  <p style="color: var(--fontColor)" id="offerClickDiscribtion"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="buttonClose" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="offerClickMessage" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 style="color: var(--fontColor)">Сообщение</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container" style="margin-top: 4%;">
+          <input type="hidden" id="offerClickMessageId">
+          <input type="hidden" id="userOwnerId">
+          <h2 style="color: var(--fontColor)">Напишите что нибудь</h2>
+          <textarea class="inputForm" id="offerClickMessageTextAria" placeholder="Сообщение"
+            style="height: 150px"></textarea>
+          <button class="buttonOK" style="margin-top: 10px;" onclick="sendMessageSend()">Отправить</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="buttonClose" data-bs-dismiss="modal" >Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var secondTypes = {{.TypeSecond }}
+</script>
+{{template "footer"}}

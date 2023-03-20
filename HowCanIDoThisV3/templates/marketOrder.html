@@ -1,0 +1,165 @@
+{{template "header"}}
+<div class="container" style="margin-top: 1%">
+  <h1 style="color: #fff">IT > Разработка сайта</h1>
+</div>
+<div class="container" style="margin-top: 3%;">
+  <div class="row mt-1">
+    <div class="col-sm-3 col-12">
+      <div style="background-color: #1B1C2C; border-radius: 10px;" class="sortingFields" id="sortingFieldsOrder">
+        <div style="width: 95%; margin-left: auto; margin-right: auto;">
+          <form id="filtersOrdersFrom">
+            <input type="hidden" value="1" id="currentPageOrder">
+            <div style="position: relative;">
+              <p style="font-size: 20px; color: #fff; margin-top:10px; display:inline-block; margin-right: auto;">
+                Категория</p>
+              <p style="font-size: 20px; color: #fff; margin-top:10px; display:inline-block; position: absolute; right: 0; color: #E746E0; visibility: hidden;"
+                id="hiddenFiltresButtonOrder" onclick="closeFiltersOrder()">Скрыть</p>
+            </div>
+            <select name="taskType" id="orderCategoryFirstSelect"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; height: 30px;"
+              required="required">
+              <option value="0">Выберите каттегорию</option>
+              {{range .TypeFirst}}
+              <option value="{{.Id}}">{{.Name}}</option>
+              {{end}}
+            </select>
+            <p style="font-size: 20px; color: #fff; margin-top:20px">Подкатегория:</p>
+            <select name="secondType" id="orderCategorySecondSelect"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; height: 30px;"
+              required="required">
+              <option value="0">Выберите подкаттегорию</option>
+            </select>
+            <p style="font-size: 20px; color: #fff; margin-top:20px; height: 30px;">Дедлайн до:</p>
+            <input type="date" name="deadline" value="0"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; height: 30px;">
+            <p style="font-size: 20px; color: #fff; margin-top:20px; height: 30px;">Тип задачи:</p>
+            <select name="workType"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; height: 30px;"
+              required="required">
+              <option value="0">Не выбрано</option>
+              <option value="1">Обучение</option>
+              <option value="2">Выполнение</option>
+              <option value="3">Временный работник</option>
+            </select>
+            <p style="font-size: 20px; color: #fff; margin-top:20px; height: 30px;">Срочность:</p>
+            <select name="urgency"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; height: 30px;"
+              required="required">
+              <option value="0">Не выбрано</option>
+              <option value="1">Низкая</option>
+              <option value="2">Средняя</option>
+              <option value="3">Высокая</option>
+            </select>
+            <p style="font-size: 20px; color: #fff; margin-top:20px; ">Бюджет:</p>
+            <div class="row">
+              <div class="col-6">
+                <input type="number" name="priceDown" placeholder="От" value=""
+                  style="border-radius: 5px; background: #E746E0; width: 100%; color: #fff; height: 30px;">
+              </div>
+              <div class="col-6">
+                <input type="number" name="priceUp" placeholder="До" value=""
+                  style="border-radius: 5px; background: #E746E0; width: 100%; color: #fff; height: 30px;">
+              </div>
+            </div>
+            <p style="font-size: 20px; color: #fff; margin-top:20px">Теги:</p>
+            <input type="text" name="tags" placeholder=""
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff">
+            <p style="font-size: 20px; color: #fff; margin-top:20px">Сортировать по:</p>
+            <select name="orderBy"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; height: 30px;"
+              required="required">
+              <option value="">Не сортировать</option>
+              <option value="asc">По цене вверх</option>
+              <option value="desc">По цене вниз</option>
+            </select>
+            <button type="button"
+              style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; margin-top:20px"
+              id="showOrdersWithFiltres">Найти</button>
+          </form>
+          <br>
+        </div>
+      </div>
+      <h4 style="text-align: right; color: #E746E0; margin-right: 10px;" class="sortingFieldsButton"
+        id="sortingFieldsButtonOrder" onclick="openFiltersOrder()">Фильтры</h4>
+    </div>
+    <div class="col-sm-9 col-12" style="margin-left: auto; margin-top: 10px;">
+      <div class="row" id="orderListPage">
+        {{range .Orders}}
+        <div class="col-sm-5 col-12"
+          style="margin-left: auto; border-radius: 10px; border: 1px solid; background-color: #1B1C2C; margin-bottom: 20px;">
+          <h4 style="color: #fff">{{.Name}}</h4>
+          <h6 style="color: #fff">Заказчик: <a href="user/{{.FkUserOwner}}">{{.FkUserOwnerName}}</a></h6>
+          <p style="color: #fff">{{.Discribtion}} ... <a onclick="showCurrentOrder({{.Id}})">Читать далее</a></p>
+          <p style="color: #fff">Желаемая цена до: {{.Price}}р</p>
+          <p style="color: #fff">Выполнить до: {{.Deadline}}</p>
+          <p style="color: #fff">Срочность: {{if eq .WorkType 1}}Низкая{{end}}{{if eq .WorkType 2}}Средняя{{end}}{{if eq
+            .WorkType 3}}Высокая{{end}}</p>
+          <p style="color: #fff">Тип задачи: {{if eq .WorkType 1}}Обучение{{end}}{{if eq .WorkType 2}}Выполнение
+            {{end}}{{if eq .WorkType 3}}Временный работник{{end}}</p>
+          <p style="color: #fff">Теги:</p>
+          <p style="color: #fff">{{.Tags}}</p>
+          <div class="row">
+            <div class="col-5">
+              <button
+                style="border-radius: 10px; border: 1px solid #E746E0; background: #1B1C2C; width: 100%; color: #fff; margin-bottom: 10px;">Жалоба</button>
+            </div>
+            <div class="col-5" style="margin-left: auto;">
+              <button
+                style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; margin-bottom: 10px;">Отозваться</button>
+            </div>
+          </div>
+        </div>
+        {{end}}
+      </div>
+      <button type="button"
+        style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; margin-top:10px; margin-bottom: 20px;"
+        id="loadMoreOrders">Загрузить еще</button>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="orderClick" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 style="color: #fff">Заказ</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container" style="margin-top: 4%;">
+          <div class="row">
+            <div class="col-lg-8 col-12" style="border-radius: 10px; background-color: #1B1C2C; margin-left: auto; margin-right: auto;">
+              <h4 style="color: #fff " id="orderClickName"></h4>
+              <h6 style="color: #fff">Заказчик: <a href="" id="orderClickUserOwner"></a></h6>
+              <div style="border-radius: 10px; margin-top: 20px; margin-bottom: 20px">
+                <p style="color: #fff" id="orderPrice"></p>
+                <p style="color: #fff" id="orderClickDeadline"></p>
+                <p style="color: #fff" id="orderClickUrgency"></p>
+                <p style="color: #fff" id="orderClickWorkType"></p>
+                <p style="color: #fff">Теги:</p>
+                <p style="color: #fff" id="orderClickTags"></p>
+              </div>
+              <p style="color: #fff" id="orderClickDiscribtion"></p>
+              <a href="" id="orderClickTZ">Скачать техническое задание</a>
+              <div class="row" style="margin-top: 20px">
+                <div class="col-5">
+                  <button style="border-radius: 10px; border: 1px solid #E746E0; background: #1B1C2C; width: 100%; color: #fff; margin-bottom: 10px; height: 35px">Жалоба</button>
+                </div>
+                <div class="col-5" style="margin-left: auto;">
+                  <button style="border-radius: 10px; background: #E746E0; width: 100%; color: #fff; margin-bottom: 10px; height: 35px;">Отозваться</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+          style="color: #fff; border: 1px solid #E746E0;background-color: #1B1C2C; height: 35px; width: 25%; border-radius: 10px;"
+          data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var secondTypes = {{.TypeSecond }}
+</script>
+{{template "footer"}}

@@ -1,0 +1,97 @@
+{{template "header"}}
+<div class="container">
+  <div class="clearfix">
+    <div class="card">
+      <div class="row">
+        <div id="plist" class="people-list col-lg-4">
+          <div class="row" style="margin-top: 4%;">
+            <div class="col-10">
+              <input type="text" class="inputFormChat" placeholder="Enter text here..." style="margin-left: 10px;">
+            </div>
+            <div class="col-2">
+              <button class="buttonOK" style="height: 40px !important;" type="button"><i
+                  class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <ul class="list-unstyled chat-list mt-2 mb-0">
+            <input type="hidden" id="currentUserId" value="{{.UserId}}">
+            <input type="hidden" id="currentChatId" value="{{.UserId}}">
+            {{range .Chats}}
+            <li class="clearfix" onclick="openChat({{.Id}}, {{.SecondUserImg}}, {{.SecondUserName}})">
+              <img src="/static/upload/avatars/{{.SecondUserImg}}" alt="avatar"
+                style="border-radius: 100px; height: 50px; width: 50px;">
+              <div class="about">
+                <div class="name" style="color: #ffffff;">{{.SecondUserName}} </div>
+                <div class="status"> </i>{{.LastMessage}}</div>
+                <div class="status"> <i class="fa fa-circle offline"></i> {{.LastSendTime}} </div>
+              </div>
+            </li>
+            {{end}}
+          </ul>
+        </div>
+        <div class="chat col-lg-8" style="position: relative" id="currentChatId">
+          <div class="chat-header clearfix" id="blockMessageFirst"
+            style="z-index: 10; border-bottom: 2px solid #28293E;">
+            <div class="row">
+              <div class="col-lg-1 col-1" style="margin-bottom: 10px; display: none;" id="backButton">
+                <i class="fa fa-chevron-left" style="color: #fff; margin-top: 15px" onclick="fuckGoBack()"></i>
+              </div>
+              <div class="col-lg-6 col-11" style="margin-bottom: 10px;">
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                  <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" id="currentChatAvatar"
+                    style="border-radius: 100px; height: 50px; width: 50px;">
+                </a>
+                <div class="chat-about">
+                  <h6 class="m-b-0" style="color: #ffffff;" id="currentChatName">Aiden Chavez</h6>
+                  <small style="color: #ffffff;">Last seen: 2 hours ago</small>
+                </div>
+              </div>
+              <div class="col-lg-3 col-8" style="margin-bottom: 10px;">
+                <input type="text" placeholder="fa-search" class="inputFormChat">
+              </div>
+              <div class="col-lg-2 col-4 hidden-sm text-right">
+                <a href="javascript:void(0);" class="btn btn-outline-secondary" style="border: 2px solid #E746E0;"><i
+                    class="fa fa-search" style="color: #fff"></i></a>
+                <a href="javascript:void(0);" class="btn btn-outline-secondary" style="border: 2px solid #E746E0;"><i
+                    class="fa fa-volume-up" style="color: #fff"></i></a>
+              </div>
+            </div>
+            <a href="#chatAnd" id="linkToEnd"></a>
+          </div>
+          <div class="chat-history" style="overflow: scroll; height: 38rem; z-index: -10; background-color: #1B1C2C;"
+            id="chatPlace">
+            <ul class="m-b-0" id="messagePlace" style=" z-index: -10; overflow: scroll">
+              <p style="text-align: center; color: #ffffff;">ДА НЕТ ТУТ СООБЩЕНИЙ ЕБЛАН НА ЧАТ НАЖМИ МУДИЛА ОБГЛОДАННЫЙ
+              </p>
+            </ul>
+            <a name="chatAnd"></a>
+          </div>
+          <div class="chat-message clearfix" id="blockMessageSecond" style="border-top: 2px solid #28293E;">
+            <div style="text-align: center;">
+              <p style="color: #fff;display: none; " id="choosenFile">ПФТП</p>
+              <i class="fa fa-times" aria-hidden="true" style="color: #fff; text-align: center; display: none;"
+                id="closeFile" onclick="closeFileChat()"></i>
+            </div>
+            <div class="row">
+              <div class="col-sm-1 col-2">
+                <a href="javascript:void(0);" onclick="document.getElementById('fileInputChat').click();"
+                  class="btn btn-outline-secondary" style="border: 2px solid #E746E0;"><i class="fa fa-image"
+                    style="color: #fff"></i></a>
+                <input id="fileInputChat" type="file" accept="image/*" style="display: none;">
+              </div>
+              <div class="col-sm-9 col-8">
+                <textarea class="inputFormChat" placeholder="Enter text here..." id="inputSendValue"></textarea>
+              </div>
+              <div class="col-2">
+                <button class="buttonOK" style="height: 40px !important;" type="button" id="buttonSendMessage"><i
+                    class="fa fa-paper-plane" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/static/js/chat.js"></script>
+{{template "footer"}}
